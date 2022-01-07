@@ -39,7 +39,7 @@ import reportWebVitals from './reportWebVitals';
 // State is similar to props, but it is private and fully controlled by the component.
 // convert function to Class:
 
-class Clock extends React.component {
+class Clock extends React.Component {
   constructor(props) {
     super(props);
     this.state = {date: new Date()};

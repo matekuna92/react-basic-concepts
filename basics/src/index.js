@@ -119,6 +119,7 @@ class Toggle extends React.Component {
   }
 
 // <button onClick={() => this.handleClick()}> - This syntax ensures `this` is bound within handleClick, no need to bind in constructor, same result
+// The problem with this syntax is that a different callback is created each time the Toggle renders, better to bind in constructor
   render() {
     return (
       <button onClick={this.handleClick}>

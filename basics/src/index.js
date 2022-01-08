@@ -45,14 +45,39 @@ class Clock extends React.Component {
     this.state = {date: new Date()};
   }
 
+  componentDidMount() {
+    this.timerID = setInterval( () => {
+      this.tick()
+    }, 1000);
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.timerID);
+  }
+
+  tick() {
+    this.setState({
+      date: new Date()
+    });
+  }
+
+// ** this.state still refers to the state of Clock
+// state of clock passed down to FormattedDate as props !
   render() {
     return (
       <div>
         <h1>Hello, world!</h1>
-      <h2>It is {this.state.date.toLocaleTimeString()}.</h2>
+        <h2>It is {this.state.date.toLocaleTimeString()}.</h2>
+      <FormattedDate date={this.state.date} />
     </div>
   );
   }
+}
+
+// state is often called local or encapsulated. It is not accessible to any component other than the one that owns and sets it.
+// A component may choose to pass its state down as props to its child components: **
+function FormattedDate(props) {
+  return <h2>It is {props.date.toLocaleTimeString()}.</h2>;
 }
 
 ReactDOM.render(

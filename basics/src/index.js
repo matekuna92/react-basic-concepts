@@ -69,9 +69,6 @@ class Clock extends React.Component {
         <h1>Hello, world!</h1>
         <h2>It is {this.state.date.toLocaleTimeString()}.</h2>
       <FormattedDate date={this.state.date} />
-
-      <Form />
-      <Toggle />
     </div>
   );
   }
@@ -129,12 +126,94 @@ class Toggle extends React.Component {
   }
 }
 
+// CONDITIONAL RENDERING
+function UserGreeting(props) {
+  return <h1>Welcome back!</h1>;
+}
 
+function GuestGreeting(props) {
+  return <h1>Please sign up.</h1>;
+}
 
+function Greeting(props) {
+  const isLoggedIn = props.isLoggedIn;
+
+  if(isLoggedIn) {
+    return <UserGreeting />
+  }
+  else {
+    return <GuestGreeting />
+  }
+}
+
+function LoginButton(props) {
+  return (
+    <div>
+      <button onClick={props.onClick}>
+        Login
+      </button>
+    </div>
+  )
+}
+
+function LogoutButton(props) {
+  return (
+    <div>
+      <button onClick={props.onClick}>
+        Logout
+      </button>
+    </div>
+  )
+}
+
+class LoginControl extends React.Component {
+  constructor(props) {
+    super(props);
+    this.handleLoginClick = this.handleLoginClick.bind(this);
+    this.handleLogoutClick = this.handleLogoutClick.bind(this);
+    this.state = { isLoggedIn: false };
+  }
+
+  handleLoginClick() {
+    this.setState({
+      isLoggedIn: true
+    });
+  }
+
+  handleLogoutClick() {
+    this.setState({
+      isLoggedIn: false
+    });
+  }
+
+  // return LogoutButton or LoginButton component based on isLoggedIn value
+  render() {
+    const isLoggedIn = this.state.isLoggedIn;
+    let button;
+
+    if (isLoggedIn) {
+      button = <LogoutButton onClick={this.handleLogoutClick} />;
+    } else {
+      button = <LoginButton onClick={this.handleLoginClick} />;
+    }
+
+  //  button = {isLoggedIn ? <LogoutButton onClick={this.handleLogoutClick} /> : <LoginButton onClick={this.handleLoginClick} />};
+
+    return (
+      <div>
+        <Greeting isLoggedIn={isLoggedIn} />
+        {button}
+      </div>
+    )
+  }
+}
 
 ReactDOM.render(
   <React.StrictMode>
     <Clock />
+    <Form />
+    <Toggle />
+    <LoginControl />
   </React.StrictMode>,
   document.getElementById('root')
 );

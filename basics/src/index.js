@@ -69,6 +69,9 @@ class Clock extends React.Component {
         <h1>Hello, world!</h1>
         <h2>It is {this.state.date.toLocaleTimeString()}.</h2>
       <FormattedDate date={this.state.date} />
+
+      <Form />
+      <Toggle />
     </div>
   );
   }
@@ -79,6 +82,53 @@ class Clock extends React.Component {
 function FormattedDate(props) {
   return <h2>It is {props.date.toLocaleTimeString()}.</h2>;
 }
+
+// FORM
+function Form() {
+  function handleSubmit(e) {
+    e.preventDefault();
+    console.log('You clicked submit.');
+  }
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <button type="submit">Submit</button>
+    </form>
+  )
+}
+
+// HANDLING EVENT
+class Toggle extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isToggled: true
+    }
+    // This binding is necessary to make `this` work in the callback
+    // In JavaScript, class methods are not bound by default
+    this.handleClick = this.handleClick.bind(this);
+  }
+
+  handleClick() {
+    this.setState(prevState => ({
+      isToggled: !prevState.isToggled
+    }));
+
+    console.log(this);
+    console.log(this.state.isToggled);
+  }
+
+  render() {
+    return (
+      <button onClick={this.handleClick}>
+        {this.state.isToggled ? 'ON' : 'OFF'}
+      </button>
+    )
+  }
+}
+
+
+
 
 ReactDOM.render(
   <React.StrictMode>

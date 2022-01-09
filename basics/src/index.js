@@ -201,6 +201,7 @@ class LoginControl extends React.Component {
 
     return (
       <div>
+        The user is <b> {isLoggedIn ? 'currently' : 'not'} </b> logged in.
         <Greeting isLoggedIn={isLoggedIn} />
         {button}
       </div>
@@ -208,12 +209,51 @@ class LoginControl extends React.Component {
   }
 }
 
+// PREVENTING COMPONENT FROM RENDERING: To do this return null instead of its render output.
+function WarningBanner(props) {
+  if(!props.warn) {
+    return null;
+  }
+  return (
+    <div className="warning">
+      Warning!
+    </div>
+  )
+}
+
+class WarningPage extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { showWarning: true };
+    this.handleClick = this.handleClick.bind(this);
+  }
+
+  handleClick() {
+    this.setState(state => ({
+      showWarning: !state.showWarning
+    }));
+  }
+
+  render() {
+    return (
+      <div>
+        <WarningBanner warn={this.state.showWarning} />
+        <button onClick={this.handleClick}>
+          {this.state.showWarning ? 'Hide' : 'Show'}
+        </button>
+      </div>
+    );
+  }
+}
+
+
 ReactDOM.render(
   <React.StrictMode>
     <Clock />
     <Form />
     <Toggle />
     <LoginControl />
+    <WarningPage />
   </React.StrictMode>,
   document.getElementById('root')
 );

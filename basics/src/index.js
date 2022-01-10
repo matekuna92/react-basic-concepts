@@ -380,7 +380,7 @@ ReactDOM.render(
     <ListOfNumbers numbers={numbers} />
     <NumberList numbers={numbers} />
     <Blog posts={posts} />
-    <NameForm name="John" />
+    <NameForm />
 
   </React.StrictMode>,
   document.getElementById('root')

@@ -337,7 +337,18 @@ class NameForm extends React.Component {
     super(props);
     this.state = { value: 'John' }; /* Warning: You provided a `value` prop to a form field without an `onChange` handler. This will render a read-only field. If the field should be mutable use `defaultValue`. Otherwise, set either `onChange` or `readOnly`. */
 
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+  }
 
+  handleChange(event) {
+    this.setState({ value: event.target.value });
+    console.log(event.target.value);
+  }
+
+  handleSubmit(event) {
+    console.log(`The form has been submitted with name: ${this.state.value}`);
+    event.preventDefault();
   }
 
   render() {

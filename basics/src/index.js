@@ -247,7 +247,7 @@ class WarningPage extends React.Component {
 }
 
 // LISTS AND KEYS - RENDERING MULTIPLE COMPONENTS
-function NumberList(props) {
+function ListOfNumbers(props) {
   const numbers = props.numbers;
   const listItems = numbers.map((number) =>
     <li key={number.toString()}>{number}</li>
@@ -260,6 +260,74 @@ function NumberList(props) {
 
 const numbers = [1, 2, 3, 4, 5, 6];
 
+// Extracting Components with Keys
+// Keys only make sense in the context of the surrounding array.
+// We should define keys in the ARRAYS instead of the Component itself:
+
+/* WRONG:
+function ListItem(props) {
+  const value = props.value;
+  return (
+    // Wrong! There is no need to specify the key here:
+    <li key={value.toString()}>
+      {value}
+    </li>
+  );
+}
+*/
+
+// CORRECT:
+function ListItem(props) {
+  return <li>{props.value}</li>
+}
+
+function NumberList(props) {
+  const numbers = props.numbers;
+  const listItems = numbers.map(number =>
+    // Correct! Key should be specified inside the array.
+    <ListItem key={number.toString()} value={number}></ListItem>
+    );
+
+    return (
+      <ul>{listItems}</ul>
+    )
+}
+
+// Keys should be only unique among siblings, but not globally.
+// We can use same keys for 2 different arrays
+// Keys serve as a hint to React but they don’t get passed to your components
+//  If you need the same value in your component, pass it explicitly as a prop with a different name
+function Blog(props) {
+  const sidebar = (
+    <ul>
+      {props.posts.map(post =>
+        <li key={post.id}>
+          {post.title}
+        </li>
+      )}
+    </ul>
+  );
+
+  const content = props.posts.map(post =>
+    <div key={post.id}>
+      <h3>{post.title}</h3>
+      <p>{post.text}</p>
+    </div>
+  );
+
+  return (
+    <div>
+      {sidebar}
+      {content}
+    </div>
+  );
+}
+
+const posts = [
+  {id: 1, title: 'Hello World', text: 'Welcome to learning React!'},
+  {id: 2, title: 'Installation', text: 'You can install React from npm.'}
+];
+
 ReactDOM.render(
   <React.StrictMode>
     <Clock />
@@ -267,7 +335,10 @@ ReactDOM.render(
     <Toggle />
     <LoginControl />
     <WarningPage />
+    <ListOfNumbers numbers={numbers} />
     <NumberList numbers={numbers} />
+    <Blog posts={posts} />
+
   </React.StrictMode>,
   document.getElementById('root')
 );
